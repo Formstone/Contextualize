@@ -7,7 +7,7 @@
  * Released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
-if (jQuery) (function($) {
+if (jQuery) (($ => {
 
 	// Default Options
 	var options = {
@@ -20,13 +20,13 @@ if (jQuery) (function($) {
 	var pub = {
 
 		// Set / Update defaults
-		defaults: function(opts) {
+		defaults(opts) {
 			options = jQuery.extend(options, opts);
 			return (typeof this === 'object') ? $(this) : true;
 		},
 
 		// Remove some context
-		remove: function(opts) {
+		remove(opts) {
 			return $(this).filter('[context="on"]')
 						  .removeClass( options.prefix + "external " + options.prefix + options.types.join(" " + options.prefix) )
 						  .attr("context", null);
@@ -35,31 +35,31 @@ if (jQuery) (function($) {
 
 	// Add some context
 	function _init(opts) {
-		options = jQuery.extend(options, opts);
-		var filter = (options.exclude != "") ? ", " + options.exclude : "",
-			$items = $(this).not('[context="on"]' + filter),
-			counter = $items.lenth;
+        options = jQuery.extend(options, opts);
+        var filter = (options.exclude != "") ? ", " + options.exclude : "";
+        var $items = $(this).not('[context="on"]' + filter);
+        var counter = $items.lenth;
 
-		for (var i = 0, count = $items.length; i < count; i++) {
+        for (var i = 0, count = $items.length; i < count; i++) {
 			var $anchor = $items.eq(i);
 
 			if ($anchor.attr("href") !== undefined) {
-				var classes = "",
-					ext = $anchor.attr("href").substr(-3).toLowerCase();
+                var classes = "";
+                var ext = $anchor.attr("href").substr(-3).toLowerCase();
 
-				if ($.inArray(ext, options.types) > -1) {
+                if ($.inArray(ext, options.types) > -1) {
 					classes += " " + options.prefix + ext;
 				}
-				if ($anchor.attr("target") == "_blank") {
+                if ($anchor.attr("target") == "_blank") {
 					classes += " " + options.prefix + "external";
 				}
 
-				$anchor.addClass(classes).attr("context", "on");
-			}
+                $anchor.addClass(classes).attr("context", "on");
+            }
 		}
 
-		return $items;
-	}
+        return $items;
+    }
 
 	// Define Plugin
 	$.fn.contextualize = function(method) {
@@ -70,4 +70,4 @@ if (jQuery) (function($) {
 		}
 		return this;
 	};
-})(jQuery);
+}))(jQuery);
